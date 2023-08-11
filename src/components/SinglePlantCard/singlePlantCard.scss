@@ -1,0 +1,31 @@
+.plantContainer {
+    display: flex;
+    align-items: center;
+    margin: 0 1em;
+    flex-direction: column;
+    flex: 1;
+    @media screen and (min-width: 468px){
+        flex-direction: row;
+    }
+}
+
+.plantIcon {
+    height: 6em;
+    padding: 1.5em;
+}
+.barContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100px;
+    width: 20px;
+}
+
+.barFill {
+    background-color: #a6cae5;
+    width: 5px;
+}
+
+.plantName {
+    padding: 0 1em;
+}
