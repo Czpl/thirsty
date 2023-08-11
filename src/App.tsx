@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import pot from './assets/PottedPlant7.svg';
 import SinglePlantCard, { IPlant } from './components/SinglePlantCard/SinglePlantCard';
-import './App.css'
+import './App.scss'
 import { v1 as uuidv1 } from 'uuid';
 
 function App() {
