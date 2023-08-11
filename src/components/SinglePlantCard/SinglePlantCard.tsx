@@ -17,11 +17,15 @@ interface IPlantProps {
 function SinglePlantCard(props: IPlantProps)  {
     return (
         <div className="plantContainer">
-            <img src={pot} className="plantIcon" alt="plant icon" />
-            <WaterProgress intervalToWater={props.plant.wateringInterval} wateredTimestamp={props.plant.lastWateredTimestamp}/>
+            <div className="iconContainer">
+                <img src={pot} className="plantIcon" alt="plant icon" />
+                <WaterProgress intervalToWater={props.plant.wateringInterval} wateredTimestamp={props.plant.lastWateredTimestamp}/>
+            </div>
             <h3 className="plantName">{props.plant.name}</h3>
-            <button>watered</button>
-            <button onClick={() => props.removePlantCb(props.plant.id)}>X</button>
+            <div className="buttonsContainer">
+                <button>watered</button>
+                <button onClick={() => props.removePlantCb(props.plant.id)}>X</button>
+            </div>
         </div>
     )
 }

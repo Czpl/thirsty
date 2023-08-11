@@ -8,7 +8,10 @@
         flex-direction: row;
     }
 }
-
+.iconContainer {
+    display: flex;
+    align-items: center;
+}
 .plantIcon {
     height: 6em;
     padding: 1.5em;
@@ -28,4 +31,10 @@
 
 .plantName {
     padding: 0 1em;
+    width:100px;
+}
+.buttonsContainer {
+    button {
+        margin: 1em;
+    }
 }

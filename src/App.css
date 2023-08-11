@@ -8,6 +8,10 @@
 .plantsContainer {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  @media screen and (min-width: 468px){
+    flex-direction: row;
+}
 }
 .plant {
   height: 6em;
