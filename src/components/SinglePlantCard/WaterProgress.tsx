@@ -8,40 +8,35 @@ interface IWaterProgressProps {
 
 function calculatePercentage(watered: number, interval: number) {
     const now = Date.now();
-    const whenToWater = watered + interval;
-    const percent = Math.round(now / whenToWater * 100);
+    const startTime = watered;
+    const endTime = watered + interval;
+    const q = Math.abs(now-startTime);
+    const d = Math.abs(endTime-startTime);
+    const percent = 100 - Math.round((q/d)*100);
+    if (percent < 0) return 0;
+    if (percent > 100) return 100;
     return percent;
 }
 
 function WaterProgress(props: IWaterProgressProps)  {
-    const [progress, setProgress] = useState(100);
-    const [displayProgress, setDisplayProgress] = useState(false);
+    const [progress, setProgress] = useState(calculatePercentage(props.wateredTimestamp, props.intervalToWater));
 
     useEffect(() => {
         const newValue =  calculatePercentage(props.wateredTimestamp, props.intervalToWater);
         setProgress(newValue);
-        setDisplayProgress(true);
       }, [progress, props.intervalToWater, props.wateredTimestamp]);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
             const newValue =  calculatePercentage(props.wateredTimestamp, props.intervalToWater);
             setProgress(newValue);
-            setDisplayProgress(true);
             return () => clearTimeout(timeout);
-        }, 3600000);
-        if(progress <= 0) {
-            setProgress(0);
-            setDisplayProgress(false);
-            clearTimeout(timeout);
-        }
+        }, 1000);
       }, [progress, props.intervalToWater, props.wateredTimestamp]);
     
-    if(!displayProgress) return null;
-
     return (
         <div className="barContainer">
-            <div className="barFill" style={{height: `${progress}%`}}/>
+            <div className="barFill" style={{height: `${progress}%`}} data-testid={'barFill'}/>
         </div>
     )
 }

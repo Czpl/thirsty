@@ -32,8 +32,9 @@ function App() {
     }
     if (action === PlantUpdateActions.water ) {
       const plantIdx = plants.findIndex((plant: IPlant) => plant.id === plantid);
-      plants[plantIdx].lastWateredTimestamp = Date.now();
-      setPlants(plants);
+      const plantList = [...plants];
+      plantList[plantIdx].lastWateredTimestamp = Date.now();
+      setPlants(plantList);
     }
   }
 
