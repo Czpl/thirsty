@@ -1,17 +1,14 @@
 import pot from '../../assets/PottedPlant7.svg';
+import { PlantUpdateActions } from '../../enums/appEnums';
+import { IPlant } from '../../interfaces/appInterfaces';
 import WaterProgress from './WaterProgress';
 
 import './singlePlantCard.scss'
 
-export interface IPlant {
-    id: string;
-    name: string;
-    wateringInterval: number;
-    lastWateredTimestamp: number;
-}
+
 interface IPlantProps {
     plant: IPlant;
-    removePlantCb: (id: string) => void;
+    plantUpdateCb: (id: string, action: PlantUpdateActions) => void;
 }
 
 function SinglePlantCard(props: IPlantProps)  {
@@ -23,8 +20,8 @@ function SinglePlantCard(props: IPlantProps)  {
             </div>
             <h3 className="plantName">{props.plant.name}</h3>
             <div className="buttonsContainer">
-                <button>watered</button>
-                <button onClick={() => props.removePlantCb(props.plant.id)}>X</button>
+                <button onClick={() => props.plantUpdateCb(props.plant.id, PlantUpdateActions.water)}>watered</button>
+                <button onClick={() => props.plantUpdateCb(props.plant.id, PlantUpdateActions.remove)}>X</button>
             </div>
         </div>
     )

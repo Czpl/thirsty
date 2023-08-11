@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import pot from './assets/PottedPlant7.svg';
-import SinglePlantCard, { IPlant } from './components/SinglePlantCard/SinglePlantCard';
+import SinglePlantCard from './components/SinglePlantCard/SinglePlantCard';
 import './App.scss'
 import { v1 as uuidv1 } from 'uuid';
+import { PlantUpdateActions } from './enums/appEnums';
+import { IPlant } from './interfaces/appInterfaces';
 
 function App() {
   const [plants, setPlants] = useState(() => {
@@ -24,8 +26,15 @@ function App() {
     setPlants([...plants, plantObj])
   }
 
-  const removePlantCb = (plantid: string) => {
-    setPlants(plants.filter((plant: IPlant) => plant.id !== plantid));
+  const plantUpdateCb = (plantid: string, action: string) => {
+    if( action === PlantUpdateActions.remove ) {
+      setPlants(plants.filter((plant: IPlant) => plant.id !== plantid));
+    }
+    if (action === PlantUpdateActions.water ) {
+      const plantIdx = plants.findIndex((plant: IPlant) => plant.id === plantid);
+      plants[plantIdx].lastWateredTimestamp = Date.now();
+      setPlants(plants);
+    }
   }
 
   useEffect(() => {
@@ -46,10 +55,10 @@ function App() {
         <button onClick={handleNewPlant}>
           add plant
         </button>
-      </div>  
+      </div>
       <h2>My plants:</h2>
       <div className="plantsContainer">
-        {plants.map((item:IPlant) => <SinglePlantCard key={`${item.id}`} plant={item} removePlantCb={removePlantCb}/>)}
+        {plants.map((item:IPlant) => <SinglePlantCard key={`${item.id}`} plant={item} plantUpdateCb={plantUpdateCb}/>)}
       </div>
     </>
   )
