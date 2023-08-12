@@ -1,0 +1,16 @@
+.tabPane {
+    display: flex;
+    justify-content: center;
+    div {
+        padding: 20px;
+        margin: 10px;
+        flex:1;
+        cursor: pointer;
+        transition: opacity .5s;
+        border-bottom: 1px solid black;
+
+        &:hover {
+            opacity: .5;
+        }
+    }
+}

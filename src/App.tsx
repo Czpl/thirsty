@@ -5,6 +5,7 @@ import './App.scss'
 import { v1 as uuidv1 } from 'uuid';
 import { PlantUpdateActions } from './enums/appEnums';
 import { IPlant } from './interfaces/appInterfaces';
+import Tabs from './components/Tabs/Tabs';
 
 function App() {
   const [plants, setPlants] = useState(() => {
@@ -49,18 +50,23 @@ function App() {
       </div>
       <h1>Thirsty</h1>
       <div className="card">
-           <span>plant name</span>
-           <input value={newPlantName} onChange={(e) => setNewPlantName(e.target.value)}></input>
-           <span>watering interval (days)</span>
-          <input value={newWateringInterval} onChange={(e) => setNewWateringInterval(e.target.value.replace(/\D/,''))}></input>
+        <span>plant name</span>
+        <input value={newPlantName} onChange={(e) => setNewPlantName(e.target.value)}></input>
+        <span>watering interval (days)</span>
+        <input value={newWateringInterval} onChange={(e) => setNewWateringInterval(e.target.value.replace(/\D/,''))}></input>
         <button onClick={handleNewPlant}>
           add plant
         </button>
       </div>
-      <h2>My plants:</h2>
-      <div className="plantsContainer">
-        {plants.map((item:IPlant) => <SinglePlantCard key={`${item.id}`} plant={item} plantUpdateCb={plantUpdateCb}/>)}
-      </div>
+      <Tabs tabs={['My Plants','Plant Wiki']}>
+        <>
+          <h2>My plants:</h2>
+          <div className="plantsContainer">
+            {plants.map((item:IPlant) => <SinglePlantCard key={`${item.id}`} plant={item} plantUpdateCb={plantUpdateCb}/>)}
+          </div>
+        </>
+        <div>wiki</div>
+      </Tabs>
     </>
   )
 }
