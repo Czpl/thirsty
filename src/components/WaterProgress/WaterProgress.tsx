@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import './singlePlantCard.scss'
+import './waterProgress.scss'
 
 interface IWaterProgressProps {
     wateredTimestamp: number;

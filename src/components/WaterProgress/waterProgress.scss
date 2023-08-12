@@ -1,0 +1,13 @@
+.barContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100px;
+    width: 5px;
+    background-color: #ff0028;
+}
+
+.barFill {
+    background-color: #a6cae5;
+    width: 5px;
+}

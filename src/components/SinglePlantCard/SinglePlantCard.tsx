@@ -1,7 +1,7 @@
 import pot from '../../assets/PottedPlant7.svg';
 import { PlantUpdateActions } from '../../enums/appEnums';
 import { IPlant } from '../../interfaces/appInterfaces';
-import WaterProgress from './WaterProgress';
+import WaterProgress from '../WaterProgress/WaterProgress';
 
 import './singlePlantCard.scss'
 
