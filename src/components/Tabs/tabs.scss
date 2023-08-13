@@ -8,9 +8,12 @@
         cursor: pointer;
         transition: opacity .5s;
         border-bottom: 1px solid black;
-
         &:hover {
             opacity: .5;
+        }
+        &.active {
+            font-weight: 700;
+            color: black;
         }
     }
 }
