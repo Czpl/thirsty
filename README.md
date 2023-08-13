@@ -20,8 +20,3 @@ docker run -d --rm -p 5173:5173 --name [container] [image]
 - Vitest
 - Typescript
 - React
-
-## ToDo:
-- add more plant icons
-- add firebase authentication for multiple users functionality and database instead of local storage
-- push notifications for forgotten plants
