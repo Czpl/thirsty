@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
-import pot from './assets/PottedPlant7.svg';
-import SinglePlantCard from './components/SinglePlantCard/SinglePlantCard';
-import './App.scss'
+import SinglePlantCard from '../SinglePlantCard/SinglePlantCard';
+import './LandingPage.scss'
 import { v1 as uuidv1 } from 'uuid';
-import { PlantUpdateActions } from './enums/appEnums';
-import { IPlant } from './interfaces/appInterfaces';
-import Tabs from './components/Tabs/Tabs';
+import { PlantUpdateActions } from '../../enums/appEnums';
+import { IPlant } from '../../interfaces/appInterfaces';
+import Tabs from '../Tabs/Tabs';
+import { NavLink, useNavigate } from 'react-router-dom'
+
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from '../../services/firebase';
 
 function App() {
   const [plants, setPlants] = useState(() => {
@@ -15,6 +18,9 @@ function App() {
   });
   const [newPlantName, setNewPlantName] = useState('');
   const [newWateringInterval, setNewWateringInterval] = useState('');
+  const [userChecked, setUserChecked] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleNewPlant = () => {
     const id = uuidv1();
@@ -26,6 +32,7 @@ function App() {
     }
     setPlants([...plants, plantObj])
   }
+  
 
   const plantUpdateCb = (plantid: string, action: string) => {
     if( action === PlantUpdateActions.remove ) {
@@ -39,16 +46,48 @@ function App() {
     }
   }
 
+ 
+  const handleLogout = () => {               
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      navigate("/");
+    }).catch(() => {
+      // An error happened.
+    });
+  }
+
   useEffect(() => {
     localStorage.setItem("plants", JSON.stringify(plants));
   }, [plants]);
   
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+      setUserChecked(true);
+    });
+
+  }, [])
+
+  if(!loggedIn && userChecked) { 
+    return (
+      <>
+        <NavLink to="/login">
+          Log in to continue
+        </NavLink>
+      </>
+      
+    )
+  }
+
+  if(!loggedIn && !userChecked) return null;
+
   return (
     <>
-      <div>
-        <img src={pot} className="plant" alt="plant icon" />
-      </div>
-      <h1>Thirsty</h1>
+      <button onClick={handleLogout}>Logout</button>
       <div className="card">
         <span>plant name</span>
         <input value={newPlantName} onChange={(e) => setNewPlantName(e.target.value)}></input>
