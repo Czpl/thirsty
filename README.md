@@ -16,7 +16,9 @@ docker run -d --rm -p 5173:5173 --name [container] [image]
 
 ## Technologies
 
-- Vite
-- Vitest
 - Typescript
 - React
+- Vite
+- Firebase
+- Docker
+- Vitest
