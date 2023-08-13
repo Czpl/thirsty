@@ -6,8 +6,8 @@ import { PlantUpdateActions } from '../../enums/appEnums';
 import { IPlant } from '../../interfaces/appInterfaces';
 import Tabs from '../Tabs/Tabs';
 import { NavLink, useNavigate } from 'react-router-dom'
-
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import useUserData from '../../hooks/useUserData';
+import { signOut } from "firebase/auth";
 import { auth } from '../../services/firebase';
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
   });
   const [newPlantName, setNewPlantName] = useState('');
   const [newWateringInterval, setNewWateringInterval] = useState('');
-  const [userChecked, setUserChecked] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const user = useUserData();
 
   const handleNewPlant = () => {
     const id = uuidv1();
@@ -61,18 +61,14 @@ function App() {
   }, [plants]);
   
   useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
-      setUserChecked(true);
-    });
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [user])
 
-  }, [])
-
-  if(!loggedIn && userChecked) { 
+  if(!loggedIn) { 
     return (
       <>
         <NavLink to="/login">
@@ -82,8 +78,6 @@ function App() {
       
     )
   }
-
-  if(!loggedIn && !userChecked) return null;
 
   return (
     <>

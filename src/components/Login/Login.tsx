@@ -1,20 +1,17 @@
 import {useState, useEffect} from 'react';
-import {  signInWithEmailAndPassword, onAuthStateChanged   } from 'firebase/auth';
+import {  signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { NavLink, useNavigate } from 'react-router-dom'
- 
+import useUserData from '../../hooks/useUserData';
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/");
-      }
-    });
+  const user = useUserData();
 
+  useEffect(()=>{
+    if(user) navigate('/');
   },)
 
   const onLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
