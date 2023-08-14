@@ -1,6 +1,6 @@
-import LandingPage from './components/LandingPage/LandingPage';
-import Signup from './components/Signup/Signup';
-import Login from './components/Login/Login';
+import LandingPage from './pages/LandingPage/LandingPage';
+import Signup from './pages/Signup/Signup';
+import Login from './pages/Login/Login';
 import { BrowserRouter as Router} from 'react-router-dom';
 import {Routes, Route} from 'react-router-dom';
 import pot from './assets/PottedPlant7.svg';

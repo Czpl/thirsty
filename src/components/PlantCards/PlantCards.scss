@@ -1,11 +1,3 @@
-#root {
-  max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .plantsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -27,10 +19,7 @@
 .card {
   padding: 2em;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-}
-
-.card input {
-  margin-bottom: 1em;
+  justify-content: space-between;
 }
