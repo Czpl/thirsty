@@ -45,6 +45,10 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: black;
+  @media (prefers-color-scheme: dark) {
+    color: white;
+  }
 }
 button:hover {
   border-color: #a6cae5;

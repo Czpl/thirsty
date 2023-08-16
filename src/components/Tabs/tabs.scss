@@ -6,14 +6,16 @@
         margin: 10px;
         flex:1;
         cursor: pointer;
-        transition: opacity .5s;
         border-bottom: 1px solid black;
-        &:hover {
-            opacity: .5;
-        }
+        @media (prefers-color-scheme: dark) {
+            border-color: white;
+          }
         &.active {
             font-weight: 700;
             color: black;
+            @media (prefers-color-scheme: dark) {
+                color: white;
+              }
         }
     }
 }
