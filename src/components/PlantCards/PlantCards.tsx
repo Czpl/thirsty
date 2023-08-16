@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { IPlant } from "../../interfaces/appInterfaces";
 import SinglePlantCard from "../SinglePlantCard/SinglePlantCard";
 import { PlantUpdateActions } from "../../enums/appEnums";
-import { addDoc, collection, deleteDoc, getDocs, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
-import { v1 as uuidv1 } from 'uuid';
 import './PlantCards.scss'
+import AddPlantSection from "../AddPlantSection/AddPlantSection";
+import Modal from "../Modal/Modal";
 
 function PlantCards() {
   const [plants, setPlants] = useState<IPlant[]>([]);
-  const [newPlantName, setNewPlantName] = useState('');
-  const [newWateringInterval, setNewWateringInterval] = useState('');
-  
+  const [modalOpen, setModalOpen] = useState(false);
+
   const fetchPlants = async () => {
     await getDocs(collection(db, "plants"))
       .then((querySnapshot)=>{     
@@ -38,25 +38,6 @@ function PlantCards() {
         }).then(() => fetchPlants());
     }
   }
-
-  const handleNewPlant = async () => {
-    const id = uuidv1();
-    const plantObj: IPlant = {
-      id: id,
-      name: newPlantName,
-      wateringInterval: Number(newWateringInterval)*24*60*60*1000,
-      lastWateredTimestamp: Date.now()
-    }
-    try {
-      const docRef = await addDoc(collection(db, "plants"), {
-        ...plantObj,    
-      });
-      console.log("Document written with ID: ", docRef.id);
-      fetchPlants();
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }
   useEffect(()=>{
     fetchPlants();
   }, [])
@@ -64,15 +45,8 @@ function PlantCards() {
   if(!plants) return null
   return (
     <>
-      <div className="card">
-        <span>plant name</span>
-        <input value={newPlantName} onChange={(e) => setNewPlantName(e.target.value)}></input>
-        <span>watering interval (days)</span>
-        <input value={newWateringInterval} onChange={(e) => setNewWateringInterval(e.target.value.replace(/\D/,''))}></input>
-        <button onClick={handleNewPlant}>
-          add plant
-        </button>
-      </div>
+      <button onClick={() => setModalOpen(true)}> add Plant </button>
+      <Modal isOpen={modalOpen} setIsOpen={setModalOpen}><AddPlantSection fetchPlants={fetchPlants}/></Modal>
       <h2>My plants:</h2>
       <div className="plantsContainer">
         {plants.map((item:IPlant) => <SinglePlantCard key={`${item.id}`} plant={item} plantUpdateCb={plantUpdateCb}/>)}

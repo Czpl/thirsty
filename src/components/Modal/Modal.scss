@@ -1,0 +1,19 @@
+.modalContainer {
+  position: absolute;
+  top: 0;
+  lefT: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .modal {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+    @media (prefers-color-scheme: dark) {
+      background-color: #1a1a1a;
+      border-color: white;
+    }
+  }
+}
