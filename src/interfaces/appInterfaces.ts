@@ -4,6 +4,7 @@ export interface IPlant {
     name: string;
     wateringInterval: number;
     lastWateredTimestamp: number;
+    uid: string;
 }
 
 export interface ITabsProps {

@@ -4,6 +4,7 @@ import { IPlant } from "../../interfaces/appInterfaces";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import './AddPlantSection.scss';
+import useUserData from "../../hooks/useUserData";
 
 interface IAddPlantSectionProps {
   fetchPlants: () => Promise<void>;
@@ -13,14 +14,17 @@ function AddPlantSection(props: IAddPlantSectionProps) {
   const { fetchPlants } = props;
   const [newPlantName, setNewPlantName] = useState('');
   const [newWateringInterval, setNewWateringInterval] = useState('');
+  const user = useUserData();
 
   const handleNewPlant = async () => {
     const id = uuidv1();
+    if(!user) return;
     const plantObj: IPlant = {
       id: id,
       name: newPlantName,
       wateringInterval: Number(newWateringInterval)*24*60*60*1000,
-      lastWateredTimestamp: Date.now()
+      lastWateredTimestamp: Date.now(),
+      uid: user.uid,
     }
     try {
       const docRef = await addDoc(collection(db, "plants"), {
