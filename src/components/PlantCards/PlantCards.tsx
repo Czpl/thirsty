@@ -1,46 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IPlant } from "../../interfaces/appInterfaces";
 import SinglePlantCard from "../SinglePlantCard/SinglePlantCard";
 import { PlantUpdateActions } from "../../enums/appEnums";
-import { collection, deleteDoc, getDocs, updateDoc } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import {  deleteDoc, updateDoc } from "firebase/firestore";
 import './PlantCards.scss'
 import AddPlantSection from "../AddPlantSection/AddPlantSection";
 import Modal from "../Modal/Modal";
+import { QuerySnapshot } from "firebase/firestore/lite";
 
-function PlantCards() {
-  const [plants, setPlants] = useState<IPlant[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const fetchPlants = async () => {
-    await getDocs(collection(db, "plants"))
-      .then((querySnapshot)=>{     
-        const newData = querySnapshot.docs
-          .map((doc) => ({...doc.data() as IPlant}));
-        setPlants([...newData]);     
-      })
+interface IPlantCardProps {
+  plants: IPlant[] | undefined;
+  functions: {
+    fetchPlants: () => Promise<void>;
+    getSnapshot: () => Promise<QuerySnapshot>;
   }
+}
+
+function PlantCards(props: IPlantCardProps) {
+  // const [plants, setPlants] = useState<IPlant[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const {plants} = props;
+  const{fetchPlants, getSnapshot} = props.functions;
+
   const plantUpdateCb = async (plantid: string, action: string) => {
+    const data = await getSnapshot();
     if( action === PlantUpdateActions.remove ) {
-      await getDocs(collection(db, "plants"))
-        .then((querySnapshot)=>{
-          const plantToRemove = querySnapshot.docs
-            .find((doc) => (doc.data().id == plantid));
-          plantToRemove && deleteDoc(plantToRemove.ref);
-        }).then(() => fetchPlants());
+      const plantToRemove = data.docs.find((doc) => (doc.data().id == plantid));
+      plantToRemove && deleteDoc(plantToRemove.ref);
     }
     if (action === PlantUpdateActions.water ) {
-      await getDocs(collection(db, "plants"))
-        .then((querySnapshot)=>{
-          const plantToUpdate = querySnapshot.docs
-            .find((doc) => (doc.data().id == plantid))
-          plantToUpdate && updateDoc(plantToUpdate.ref, {lastWateredTimestamp: Date.now()});
-        }).then(() => fetchPlants());
+      const plantToUpdate = data.docs.find((doc) => (doc.data().id == plantid))
+      plantToUpdate && updateDoc(plantToUpdate.ref, {lastWateredTimestamp: Date.now()});
     }
-  }
-  useEffect(()=>{
     fetchPlants();
-  }, [])
+  }
 
   if(!plants) return null
   return (
