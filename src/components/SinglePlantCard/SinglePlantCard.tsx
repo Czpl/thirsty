@@ -12,6 +12,7 @@ interface IPlantProps {
 }
 
 function SinglePlantCard(props: IPlantProps)  {
+  const handleClick = (action: PlantUpdateActions) => () => props.plantUpdateCb(props.plant.id, action);
   return (
     <div className="plantContainer">
       <div className="iconContainer">
@@ -20,8 +21,8 @@ function SinglePlantCard(props: IPlantProps)  {
       </div>
       <h3 className="plantName">{props.plant.name}</h3>
       <div className="buttonsContainer">
-        <button onClick={() => props.plantUpdateCb(props.plant.id, PlantUpdateActions.water)}>watered</button>
-        <button onClick={() => props.plantUpdateCb(props.plant.id, PlantUpdateActions.remove)}>X</button>
+        <button onClick={handleClick(PlantUpdateActions.water)}>watered</button>
+        <button onClick={handleClick(PlantUpdateActions.remove)}>X</button>
       </div>
     </div>
   )
