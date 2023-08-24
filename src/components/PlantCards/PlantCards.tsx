@@ -6,21 +6,12 @@ import {  deleteDoc, updateDoc } from "firebase/firestore";
 import './PlantCards.scss'
 import AddPlantSection from "../AddPlantSection/AddPlantSection";
 import Modal from "../Modal/Modal";
-import { QuerySnapshot } from "firebase/firestore/lite";
+import { usePlantsContext } from "../../hooks/usePlantsContext";
 
-interface IPlantCardProps {
-  plants: IPlant[] | undefined;
-  functions: {
-    fetchPlants: () => Promise<void>;
-    getSnapshot: () => Promise<QuerySnapshot>;
-  }
-}
-
-function PlantCards(props: IPlantCardProps) {
+function PlantCards() {
   // const [plants, setPlants] = useState<IPlant[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const {plants} = props;
-  const{fetchPlants, getSnapshot} = props.functions;
+  const {plants , fetchPlants, getSnapshot} = usePlantsContext();
 
   const plantUpdateCb = async (plantid: string, action: string) => {
     const data = await getSnapshot();
@@ -32,7 +23,7 @@ function PlantCards(props: IPlantCardProps) {
       const plantToUpdate = data.docs.find((doc) => (doc.data().id == plantid))
       plantToUpdate && updateDoc(plantToUpdate.ref, {lastWateredTimestamp: Date.now()});
     }
-    fetchPlants();
+    //todo: use local state for updated plants
   }
 
   if(!plants) return null
