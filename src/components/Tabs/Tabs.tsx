@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useState } from "react"
-import { ITabsProps } from "../../interfaces/appInterfaces";
+import { TTabsProps } from "../../types/appTypes";
+import { TabNames } from "../../enums/appEnums";
 
 import './tabs.scss';
 import { usePlantsContext } from "../../hooks/usePlantsContext";
@@ -18,7 +19,7 @@ function Tab({tab, value, index, handleChange}:TabProps) {
   const {plants} = usePlantsContext();
 
   useEffect(() => {
-    setShowBadge(tab === 'My Plants' && findActions(plants) !== 0);
+    setShowBadge(tab === TabNames.HOME && findActions(plants) !== 0);
   }, [plants, tab])
 
   return (
@@ -32,7 +33,7 @@ function Tab({tab, value, index, handleChange}:TabProps) {
   );
 }
 
-function Tabs(props:ITabsProps) {
+function Tabs(props:TTabsProps) {
   const [value, setValue] = useState(0);
 
   const tabs: ReactElement[] = [...props.children];
