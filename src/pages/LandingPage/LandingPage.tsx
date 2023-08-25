@@ -7,6 +7,7 @@ import { signOut } from "firebase/auth";
 import { auth } from '../../services/firebase';
 import PlantCards from '../../components/PlantCards/PlantCards';
 import PlantContextProvider from '../../contexts/plantContextProvider';
+import { TabNames } from '../../enums/appEnums';
 
 function App() {  
   const [loggedIn, setLoggedIn] = useState(false);
@@ -45,7 +46,7 @@ function App() {
     <>
       <button onClick={handleLogout}>Logout</button>
       <PlantContextProvider user={user}>
-        <Tabs tabs={['My Plants','Plant Wiki']}>
+        <Tabs tabs={[TabNames.HOME,TabNames.WIKI]}>
           <PlantCards/>
           <div>wiki</div>
         </Tabs>

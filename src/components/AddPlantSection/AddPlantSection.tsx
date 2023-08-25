@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { v1 as uuidv1 } from 'uuid';
-import { IPlant } from "../../interfaces/appInterfaces";
+import { TPlant } from "../../types/appTypes";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import './AddPlantSection.scss';
@@ -19,7 +19,7 @@ function AddPlantSection(props: IAddPlantSectionProps) {
   const handleNewPlant = async () => {
     const id = uuidv1();
     if(!user) return;
-    const plantObj: IPlant = {
+    const plantObj: TPlant = {
       id: id,
       name: newPlantName,
       wateringInterval: Number(newWateringInterval)*24*60*60*1000,

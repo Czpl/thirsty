@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IPlant } from "../../interfaces/appInterfaces";
+import { TPlant } from "../../types/appTypes";
 import SinglePlantCard from "../SinglePlantCard/SinglePlantCard";
 import { PlantUpdateActions } from "../../enums/appEnums";
 import {  deleteDoc, updateDoc } from "firebase/firestore";
@@ -39,7 +39,7 @@ function PlantCards() {
       <Modal isOpen={modalOpen} setIsOpen={setModalOpen}><AddPlantSection fetchPlants={fetchPlants}/></Modal>
       <h2>My plants:</h2>
       <div className="plantsContainer">
-        {plants.map((item:IPlant) => <SinglePlantCard key={`${item.id}`} plant={item} plantUpdateCb={plantUpdateCb}/>)}
+        {plants.map((item:TPlant) => <SinglePlantCard key={`${item.id}`} plant={item} plantUpdateCb={plantUpdateCb}/>)}
       </div>
     </>
   )
