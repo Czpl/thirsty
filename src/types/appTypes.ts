@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-export interface IPlant {
+export type TPlant = {
     id: string;
     name: string;
     wateringInterval: number;
@@ -7,7 +7,9 @@ export interface IPlant {
     uid: string;
 }
 
-export interface ITabsProps {
+export type TTabsProps = {
     tabs: string[];
     children: Array<ReactElement>;
 }
+
+export type TTabs = 'My Plants' | 'Wiki';

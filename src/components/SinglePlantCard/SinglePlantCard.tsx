@@ -1,13 +1,13 @@
 import pot from '../../assets/PottedPlant7.svg';
 import { PlantUpdateActions } from '../../enums/appEnums';
-import { IPlant } from '../../interfaces/appInterfaces';
+import { TPlant } from '../../types/appTypes';
 import WaterProgress from '../WaterProgress/WaterProgress';
 
 import './singlePlantCard.scss'
 
 
 interface IPlantProps {
-    plant: IPlant;
+    plant: TPlant;
     plantUpdateCb: (id: string, action: PlantUpdateActions) => void;
 }
 

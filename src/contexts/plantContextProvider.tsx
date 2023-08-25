@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useEffect, useState } from "react";
 import { User } from "firebase/auth";
 import { QuerySnapshot, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../services/firebase";
-import { IPlant } from "../interfaces/appInterfaces";
+import { TPlant } from "../types/appTypes";
 
 type PlantContextProviderProps = {
   user: User | null;
@@ -10,8 +10,8 @@ type PlantContextProviderProps = {
 }
 
 type PlantContext = {
-  plants: IPlant[],
-  setPlants: React.Dispatch<React.SetStateAction<IPlant[]>>,
+  plants: TPlant[],
+  setPlants: React.Dispatch<React.SetStateAction<TPlant[]>>,
   fetchPlants: () => Promise<void>;
   getSnapshot: () => Promise<QuerySnapshot>;
 }
@@ -19,7 +19,7 @@ type PlantContext = {
 export const PlantsContext = createContext<PlantContext | null>(null);
 
 export default function PlantContextProvider( props: PlantContextProviderProps) {
-  const [plants, setPlants] = useState<IPlant[]>([]);
+  const [plants, setPlants] = useState<TPlant[]>([]);
 
   const getSnapshot = useCallback(async () => {
     const plantsRef = collection(db, "plants");
@@ -32,7 +32,7 @@ export default function PlantContextProvider( props: PlantContextProviderProps) 
     console.log('fetching plants')
     const data = await getSnapshot();
     const newData = data.docs
-      .map((doc) => ({...doc.data() as IPlant}));
+      .map((doc) => ({...doc.data() as TPlant}));
     setPlants([...newData]);
   }, [getSnapshot])
 
