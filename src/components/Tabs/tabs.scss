@@ -1,7 +1,7 @@
 .tabPane {
     display: flex;
     justify-content: center;
-    div {
+    .tab {
         padding: 20px;
         margin: 10px;
         flex:1;
@@ -16,6 +16,21 @@
             @media (prefers-color-scheme: dark) {
                 color: white;
               }
+        }
+
+        .cta {
+            position: relative;
+            &::after {
+                content: ' ';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: -10px;
+                border-radius: 100%;
+                width: 6px;
+                height: 6px;
+                background-color: red;
+            }
         }
     }
 }
