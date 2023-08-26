@@ -3,17 +3,14 @@ import Signup from './pages/Signup/Signup';
 import Login from './pages/Login/Login';
 import { BrowserRouter as Router} from 'react-router-dom';
 import {Routes, Route} from 'react-router-dom';
-import pot from './assets/PottedPlant7.svg';
+import Header from './components/Header/Header';
 
 function MainRouter() {
  
   return (
     <>
-      <div>
-        <img src={pot} className="plant" alt="plant icon" />
-      </div>
-      <h1>Thirsty</h1>
-      <Router>                           
+      <Router>     
+        <Header/>                 
         <Routes>
           <Route path="/" element={<LandingPage/>}/>
           <Route path="/signup" element={<Signup/>}/>
