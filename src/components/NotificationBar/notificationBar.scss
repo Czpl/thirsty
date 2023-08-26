@@ -1,0 +1,16 @@
+
+.notificationBar{ 
+  display: flex;
+  justify-content: center;
+  background-color: #de4d4d;
+  color: white;
+  font-weight: 700;
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 15px;
+  cursor: pointer;
+  
+  @media (prefers-color-scheme: dark) {
+    filter: invert(1);
+  }
+}

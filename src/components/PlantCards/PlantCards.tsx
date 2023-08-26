@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TPlant } from "../../types/appTypes";
 import SinglePlantCard from "../SinglePlantCard/SinglePlantCard";
 import { PlantUpdateActions } from "../../enums/appEnums";
@@ -7,10 +7,17 @@ import './PlantCards.scss'
 import AddPlantSection from "../AddPlantSection/AddPlantSection";
 import Modal from "../Modal/Modal";
 import { usePlantsContext } from "../../hooks/usePlantsContext";
+import NotificationBar from "../NotificationBar/NotificationBar";
+import findActions from "../../helpers/findActions";
 
 function PlantCards() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [actions, setActions] = useState(0);
   const {plants, setPlants, fetchPlants, getSnapshot} = usePlantsContext();
+
+  useEffect(() => {
+    setActions(findActions(plants));
+  }, [plants]);
 
   // todo extract to actions, refactor
   const plantUpdateCb = async (plantid: string, action: string) => {
@@ -35,6 +42,7 @@ function PlantCards() {
   if(!plants) return null
   return (
     <>
+      {!!actions && <NotificationBar message={`${actions} plants need attention`}/>}
       <button onClick={() => setModalOpen(true)}> add Plant </button>
       <Modal isOpen={modalOpen} setIsOpen={setModalOpen}><AddPlantSection fetchPlants={fetchPlants}/></Modal>
       <h2>My plants:</h2>

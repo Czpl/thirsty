@@ -12,4 +12,9 @@ export type TTabsProps = {
     children: Array<ReactElement>;
 }
 
+export type TNotificationBarProps = {
+  message: string;
+  onClickHandler?: () => void;
+};
+
 export type TTabs = 'My Plants' | 'Wiki';
